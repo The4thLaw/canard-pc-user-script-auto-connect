@@ -6,8 +6,8 @@
 // @version     1.0
 // @author      Xavier 'Xr' Dalem
 // @description Connexion automatique sur le site de Canard PC quand l'utilisateur a déjà un compte. Facilite la transition entre différents appareils.
-// @downloadURL // TODO: raw
-// @updateURL   // TODO: raw
+// @downloadURL https://raw.githubusercontent.com/The4thLaw/canard-pc-user-script-auto-connect/main/user-script.js
+// @updateURL   https://raw.githubusercontent.com/The4thLaw/canard-pc-user-script-auto-connect/main/user-script.js
 // @grant       GM_getValue
 // @grant       GM_setValue
 // ==/UserScript==
