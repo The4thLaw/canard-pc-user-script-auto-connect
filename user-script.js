@@ -3,7 +3,7 @@
 // @namespace   https://github.com/The4thLaw/
 // @match       *://www.canardpc.com/*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      Xavier 'Xr' Dalem
 // @description Connexion automatique sur le site de Canard PC quand l'utilisateur a déjà un compte. Facilite la transition entre différents appareils.
 // @downloadURL https://raw.githubusercontent.com/The4thLaw/canard-pc-user-script-auto-connect/main/user-script.js
@@ -38,25 +38,28 @@ SOFTWARE.
 
 function addSettingsToPage() {
   // Add the settings to the footer
-  const copyright = document.querySelector('p.copyright')
+  const copyright = document.querySelector('#copyright-footer')
   const settings = document.createElement('p')
   settings.innerHTML = '<label><input type="checkbox" id="cpc-auto-settings-login">Valider la connexion automatiquement</label>'
-  copyright.parentNode.insertBefore(settings, copyright)
+  // Match the footer style
+  settings.style.fontSize = '0.55rem'
+  copyright.appendChild(settings)
   const input = document.getElementById('cpc-auto-settings-login')
   input.style.width = 'auto'
   input.style.marginRight = '.5em'
 
   // Save/load the auto-login setting
   const autoLogin = GM_getValue('autoLogin', false)
+  console.log({autoLogin})
   input.checked = autoLogin
   input.addEventListener('click', () => {
-    GM_setValue('autoLogin', true)
+    GM_setValue('autoLogin', !GM_getValue('autoLogin', false))
   })
 }
 
 if (!window.location.pathname.startsWith('/se-connecter')) {
   // Go to the connection page if we're not connected
-  const connectLink = document.querySelector('.user-part a:first-of-type')
+  const connectLink = document.querySelector('.user-section.Navigation-3 a:first-of-type')
   if (connectLink.textContent.trim() === 'Se connecter') {
     connectLink.click()
   }
@@ -65,7 +68,8 @@ if (!window.location.pathname.startsWith('/se-connecter')) {
   if (autoLogin) {
     // If the user explicitly asked for it, automatically submit the connection form
     document.querySelector('input[name="remember"]').checked = true
-    document.querySelector('form[action$="se-connecter"]').submit()
+    // Wait a second, else the server has some trouble processing the request
+    setTimeout(() => document.querySelector('form[action$="se-connecter"]').submit(), 1000)
   }
 }
 
