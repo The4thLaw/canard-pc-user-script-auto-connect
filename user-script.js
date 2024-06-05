@@ -3,7 +3,7 @@
 // @namespace   https://github.com/The4thLaw/
 // @match       *://www.canardpc.com/*
 // @grant       none
-// @version     1.1
+// @version     1.2
 // @author      Xavier 'Xr' Dalem
 // @description Connexion automatique sur le site de Canard PC quand l'utilisateur a déjà un compte. Facilite la transition entre différents appareils.
 // @downloadURL https://raw.githubusercontent.com/The4thLaw/canard-pc-user-script-auto-connect/main/user-script.js
@@ -57,7 +57,9 @@ function addSettingsToPage() {
   })
 }
 
-if (!window.location.pathname.startsWith('/se-connecter')) {
+if (document.title.includes('Page non trouv')) {
+  // Don't do anything on 404, this can involve endless redirections due to 404 pages always having a "connect" link
+} else if (!window.location.pathname.startsWith('/se-connecter')) {
   // Go to the connection page if we're not connected
   const connectLink = document.querySelector('.user-section.Navigation-3 a:first-of-type')
   if (connectLink.textContent.trim() === 'Se connecter') {
